@@ -100,7 +100,11 @@ function delete_activity(elem){
 	console.log("test2-0");
 	console.log(elem);
 	console.log(activity_button);
-	var button = elem.find(activity_button);
+	console.log($(document).find);
+	console.log(elem.find);
+	console.log(elem[0]);
+	console.log(elem.find(activity_button));
+	var button = elem[0].find(activity_button);
 	console.log("test2-1");
 	click_on_elem(button);
 	console.log("test2-2");
@@ -148,7 +152,7 @@ function get_activities(){
 	var activities = $(document).find(activity_selector);
 	console.log("test4-2");
 	console.log(activities);
-	scroll();
+//	scroll();
 	return activities;
 }
 
