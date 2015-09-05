@@ -15,14 +15,18 @@
 
 console.log("test0");
 
-// Flags.
+// Texts :
+var confirm_text = "Do you want to delete everything?";
+
+// Flags :
 var launched = false;
 var test = false;
 
-// Selectors
+// Selectors :
 var button_location = 'div[class="_2o3t fixed_elem"]';
 var button_classes = '_42ft _4jy0 _11b _4jy3 _4jy1 selected _51sy';
 var activity_button = 'a[class="_42ft _42fu _4-s1 _2agf _p _42gx"]';
+var activity_selector = 'div[class="pam _5shk uiBoxWhite bottomborder"]';
 var delete_button_selector = 'a[class="_54nc"]';
 var confirm_selector = 'button[class="_42ft _4jy0 layerConfirm uiOverlayButton _4jy3 _4jy1 selected _51sy"]';
 
@@ -71,6 +75,13 @@ function add_button(text, code){
 	console.log("test1bis-2");
 }
 
+console.log("test1ter");
+
+function ask_for_confirmation(){
+	console.log("test1ter1");
+	return confirm(confirm_text);
+}
+
 console.log("test2");
 
 function delete_activity(elem){
@@ -100,6 +111,16 @@ function click_event(){
 
 console.log("test4");
 
+function get_activities(){
+	console.log("test4-1");
+	var activities = $(document).find(activity_selector);
+	console.log("test4-2");
+	console.log(activities);
+	return activities;
+}
+
+console.log("test4bis");
+
 function click_on_elem(elem){
 	elem.dispatchEvent(click_event());
 }
@@ -111,6 +132,25 @@ console.log("test5");
 */
 
 function delete_all_activity(){
+	console.log("test5-1");
+	var activities = [];
+	var fn = function(index, value){
+		console.log("test5-2");
+		console.log("Delete no " + index + " - object : " + value);
+		delete_activity(value);
+		console.log("test5-3");
+		this.remove();
+		console.log("test5-4");
+	};
+	if (ask_for_confirmation()){
+		console.log("test5-5");
+		while (activities = get_activities()){
+			console.log("test5-6");
+			activities.each(fn);
+			console.log("test5-7");
+			activities = [];
+		}
+	}
 	return true;
 }
 
