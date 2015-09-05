@@ -20,7 +20,7 @@ var confirm_text = "Do you want to delete everything?";
 
 // Flags :
 var launched = false;
-var test = false;
+var test = true;
 
 // Selectors :
 var button_location = 'div[class="_2o3t fixed_elem"]';
@@ -46,7 +46,7 @@ function check_timeline()
 console.log("test1bis");
 
 function add_button(text, code){
-	console.log("test1bis");
+	console.log("test1bis1");
 	
 	// Creating the button.
 	var button = document.createElement('button');
@@ -85,16 +85,29 @@ function ask_for_confirmation(){
 console.log("test2");
 
 function delete_activity(elem){
+	console.log("test2-0");
+	console.log(elem);
 	var button = elem.find(activity_button);
+	console.log("test2-1");
 	click_on_elem(button);
+	console.log("test2-2");
 	var delete_button = get_delete_button($(document).find(delete_button_selector));
+	console.log("test2-3");
 	if (delete_button){
-		if (test)
+		console.log("test2-4");
+		if (test){
+			console.log("test2-5");
 			console.log('test : {0}'.format(elem));
+			console.log("test2-6");
+		}
 		else{
-			click_on_elem_button(delete_button);
+			console.log("test2-7");
+			click_on_elem(delete_button);
+			console.log("test2-8");
 			// confirm
+			console.log("test2-9");
 			click_on_elem($(document).find(confirm_selector));
+			console.log("test2-10");
 		}
 	}
 }
@@ -109,6 +122,12 @@ function click_event(){
 	});
 }
 
+console.log("test3-1");
+
+function scroll(){
+	return scrollTo(0, 1000000000);
+}
+
 console.log("test4");
 
 function get_activities(){
@@ -116,6 +135,7 @@ function get_activities(){
 	var activities = $(document).find(activity_selector);
 	console.log("test4-2");
 	console.log(activities);
+	scroll();
 	return activities;
 }
 
