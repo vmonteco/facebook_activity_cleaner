@@ -10,6 +10,13 @@
 // ==/UserScript==
 
 /*
+** No conflict mode :
+*/
+
+//jQuery.noConflict();
+
+
+/*
 ** Variables.
 */
 
@@ -87,6 +94,7 @@ console.log("test2");
 function delete_activity(elem){
 	console.log("test2-0");
 	console.log(elem);
+	console.log(activity_button);
 	var button = elem.find(activity_button);
 	console.log("test2-1");
 	click_on_elem(button);
@@ -142,7 +150,7 @@ function get_activities(){
 console.log("test4bis");
 
 function click_on_elem(elem){
-	elem.dispatchEvent(click_event());
+	elem[0].dispatchEvent(click_event());
 }
 
 console.log("test5");

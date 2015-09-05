@@ -9,6 +9,12 @@
 // @grant       none
 // ==/UserScript==
 
+/*
+** No conflict mode :
+*/
+
+jQuery.noConflict();
+
 console.log('foo');
 
 //var activities = [];
