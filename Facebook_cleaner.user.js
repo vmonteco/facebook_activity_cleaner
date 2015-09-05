@@ -45,8 +45,13 @@ console.log("test1");
 
 function check_timeline()
 {
-	if (/(allactivity)/g.test($(location).attr('href')))
+	// NB : It only works if the URL matches exactly "/allactivity". "/allactivity#" didn't work.
+	console.log("test1-1");
+	if (/(allactivity)/g.test($(location).attr('href'))){
+		console.log("test1-2");
 		return true;
+	}
+	console.log("test1-3");
 	return false;
 }
 
