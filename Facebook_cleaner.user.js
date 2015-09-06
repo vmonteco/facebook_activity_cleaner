@@ -31,6 +31,7 @@ var test = true;
 var button_location = 'div[class="_2o3t fixed_elem"]';
 var button_classes = '_42ft _4jy0 _11b _4jy3 _4jy1 selected _51sy';
 var activity_button = 'a[class="_42ft _42fu _4-s1 _2agf _p _42gx"]';
+//var activity_button = 'a[class="_42ft _42fu _4-s1 _2agf _p _42gx"], a[class="rfloat"]';
 var activity_selector = 'div[class="pam _5shk uiBoxWhite bottomborder"]';
 var delete_button_selector = 'a[class="_54nc"]';
 var confirm_selector = 'button[class="_42ft _4jy0 layerConfirm uiOverlayButton _4jy3 _4jy1 selected _51sy"]';
@@ -39,9 +40,22 @@ var confirm_selector = 'button[class="_42ft _4jy0 layerConfirm uiOverlayButton _
 ** Basic functions.
 */
 
+function sleep(milliseconds)
+{
+	var start = new Date().getTime();
+	for (var i = 0; i < 1e7; i++)
+	{
+		if ((new Date().getTime() - start) > milliseconds)
+		{
+			break;
+		}
+	}
+}
+
 function check_timeline()
 {
 	// NB : It only works if the URL matches exactly "/allactivity". "/allactivity#" didn't work.
+	// NB2 : nevermind.
 	if (/(allactivity)/g.test($(location).attr('href'))){
 		return true;
 	}
@@ -116,18 +130,19 @@ function get_delete_button()
 // }
 
 function delete_activity(elem){
-	console.log("test 1-1");
 	var button = $(elem).find(activity_button);
-	console.log("test 1-2");
-	click_on_elem(button);
-	console.log("test 1-3");
-	var delete_button = get_delete_button($(document).find(delete_button_selector));
-	console.log("test 1-4");
-	if (test){
-		console.log("test 1-5");
-		console.log('test : ' + elem);
+	if (button && button.length > 0){
+		click_on_elem(button);
 	}
-	else if (delete_button){
+	else{
+		return;
+	}
+	var delete_button = get_delete_button($(document).find(delete_button_selector));
+	if (test){
+		console.log('test : ');
+		console.log(elem);
+	}
+	else if (delete_button && delete_button.length > 0){
 			click_on_elem(delete_button);
 			// confirm
 			click_on_elem($(document).find(confirm_selector));
@@ -148,7 +163,8 @@ function scroll(){
 
 function get_activities(){
 	var activities = $(document).find(activity_selector);
-//	scroll();
+	scroll();
+	sleep(5000);
 	return activities;
 }
 
@@ -229,11 +245,21 @@ function detect_node_for_buttons(mutations){
 ** MutationObserver.
 */
 
+$(window).bind('hashchange', function() {
+	console.log("TEST");
+	if (check_timeline()){
+		var observer = new MutationObserver(function (mutations){
+			detect_node_for_buttons(mutations);
+		});
+	}
+});
+
 if (check_timeline()){
 	var observer = new MutationObserver(function (mutations){
 		detect_node_for_buttons(mutations);
 	});
 }
+
 
 observer.observe(document.body, {
     childList: true,
