@@ -164,11 +164,8 @@ function delete_all_activity(){
 	var activities = [];
 	var fn = function(index, value){
 		console.log("Delete no " + index + " - object : " + value);
-		console.log("test 1");
 		delete_activity(value);
-		console.log("test 2");
 		$(value).remove();
-		console.log("test 3");
 	};
 	if (ask_for_confirmation()){
 		while (activities = get_activities()){
@@ -199,7 +196,6 @@ function add_one_button(){
 // main().
 
 function main(){
-	console.log("launched state : " + launched);
 	if (!launched){
 		launched = true;
 		add_all_button();
@@ -210,7 +206,10 @@ function main(){
 function detect_node_for_buttons(mutations){
 	mutations.forEach(function (mutation){
 		var element = $(document).find(button_location);
-		if (element){
+		if (launched){
+			return;
+		}
+		if (element && element.length > 0){
 			main();
 			observer.disconnect();
 			return;
