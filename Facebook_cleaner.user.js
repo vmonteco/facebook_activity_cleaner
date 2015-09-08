@@ -23,7 +23,7 @@ var button_classes = '_42ft _4jy0 _11b _4jy3 _4jy1 selected _51sy';
 // Flags :
 var buttons_added = false;
 var url_observer_launched = false;
-
+var set = false;
 
 /*
 ** Basic functions :
@@ -33,12 +33,12 @@ console.log("test2");
 
 function check_timeline()
 {
-	console.log("test2-1");
+//	console.log("test2-1");
 	if (/(allactivity)/g.test($(location).attr('href'))){
-		console.log("test2-2");
+//		console.log("test2-2");
 		return true;
 	}
-	console.log("test2-3");
+//	console.log("test2-3");
 	return false;
 }
 
@@ -73,6 +73,8 @@ function add_button(text, code){
 console.log("test4");
 
 function reset(){
+	buttons_added = false;
+	set = false;
 	return true;
 }
 
@@ -103,13 +105,14 @@ function add_one_button(){
 console.log("test7");
 
 function add_buttons(){
-	console.log("test7-1");
+//	console.log("test7-1");
 	buttons_added = true;
-	console.log("test7-2");
+	set = true;
+//	console.log("test7-2");
 	add_all_button();
-	console.log("test7-3");
+//	console.log("test7-3");
 	add_one_button();
-	console.log("test7-4");
+//	console.log("test7-4");
 }
 
 /*
@@ -119,30 +122,30 @@ function add_buttons(){
 console.log("test8");
 
 function handling_url_change(mutations){
-	console.log("test8-1");
+//	console.log("test8-1");
 	mutations.forEach(function (mutation){
-		console.log("test8-2");
+//		console.log("test8-2");
 		if (check_timeline()){
-			console.log("test8-3");
-			console.log("buttons added : " + buttons_added);
+//			console.log("test8-3");
+//			console.log("buttons added : " + buttons_added);
 			if (!buttons_added){
-				console.log("test8-4");
+//				console.log("test8-4");
 				var element = $(document).find(button_location);
-				console.log("test8-5");
+//				console.log("test8-5");
 				if (element && element.length > 0){
-					console.log("test8-6");
+//					console.log("test8-6");
 					add_buttons();
-					console.log("test8-7");
+//					console.log("test8-7");
 				}
-				console.log("test8-8");
+//				console.log("test8-8");
 			}
-			console.log("test8-9");
-		}else{
-			console.log("test8-10");
+//			console.log("test8-9");
+		}else if (set){
+//			console.log("test8-10");
 			reset();
-			console.log("test8-11");
+//			console.log("test8-11");
 		}
-		console.log("test8-12");
+//		console.log("test8-12");
 	});
 };
 
@@ -171,11 +174,11 @@ console.log("test11");
 
 // Must start url_mutation_observer.
 function start_url_observer(){
-	console.log("test11-1");
+	//console.log("test11-1");
 	url_mutation_observer.observe(document, dictionnary);
-	console.log("test11-2");
+	//	console.log("test11-2");
 	url_observer_launched = true;
-	console.log("test11-3");
+	//console.log("test11-3");
 }
 
 /*
@@ -186,31 +189,31 @@ console.log("test12");
 
 function launch()
 {
-	console.log("test12-1");
+//	console.log("test12-1");
 	if (check_timeline()){
-		console.log("test12-2");
+//		console.log("test12-2");
 		if (!buttons_added){
-			console.log("test12-3");
+//			console.log("test12-3");
 			var element = $(document).find(button_location);
-			console.log("test12-4");
+//			console.log("test12-4");
 			if (element && element.length > 0){
-				console.log("test12-5");
+//				console.log("test12-5");
 				add_buttons();
-				console.log("test12-6");
+//				console.log("test12-6");
 			}
-			console.log("test12-7");
+//			console.log("test12-7");
 		}
-	}else{
-		console.log("test12-8");
+	}else if (set){
+//		console.log("test12-8");
 		reset();
-		console.log("test12-9");
+//		console.log("test12-9");
 	}
 	if (!url_observer_launched){
-		console.log("test12-10");
+//		console.log("test12-10");
 		start_url_observer();
-		console.log("test12-11");
+//		console.log("test12-11");
 	}
-	console.log("test12-12");
+//	console.log("test12-12");
 }
 
 console.log("test13");
