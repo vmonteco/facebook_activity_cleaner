@@ -24,10 +24,10 @@
 var confirm_text = "Do you want to delete everything?";
 
 // Flags :
-var launched = false;
-var test = true;
-var buttons_added = false;
-var timeline = false;
+var url_observer_launched = false;
+var main_observer_launched = false;
+var button_observer_launched = false;
+
 
 // Selectors :
 var button_location = 'div[class="_2o3t fixed_elem"]';
@@ -249,6 +249,22 @@ function detect_node_for_buttons(mutations){
 }
 
 /*
+** Direct + MO
+*/
+
+function delete_all(){
+	return true;
+}
+
+/*
+** Direct action :
+*/
+
+function delete_direct(){
+	return true;
+}
+
+/*
 ** Mutation handling functions :
 */
 
@@ -270,7 +286,14 @@ function handling_day_header(elem){
 	return true;
 }
 
-function handling_url_change(elem){
+function handling_url_change(){
+	if (check_timeline() && ){
+		run_button_observer();
+		button_observer_launched = true;
+	}else if (running){
+		running = false;
+		runobserver.disconnect();
+	}
 	return true;
 }
 
@@ -282,35 +305,27 @@ function handling_mutations(mutations){
 ** MutationObserver.
 */
 
-var mainobserver = new MutationObserver(function (mutations){
-	if (check_timeline()){
-		detect_node_for_buttons();
-	}
+var dictionnary = {
+	childList: true,
+	subtree: true,
+	attributes: false,
+	characterData: false
+};
+
+var urlobserver = new MutationObserver(handling_url_change);
+
+var runobserver = new MutationObserver(function (mutations){	
 	return true;
 });
 
-var runobserver = new MutationObserver(function (mutations){
+var buttonobserver = new MutationObserver(function (mutations){
 	return true;
 });
 
-$(window).bind('hashchange', function() {
-	if (check_timeline()){
-		var observer = new MutationObserver(function (mutations){
-			detect_node_for_buttons(mutations);
-		});
-	}
-});
-
-if (check_timeline()){
-	var observer = new MutationObserver(function (mutations){
-		detect_node_for_buttons(mutations);
-	});
+function run_button_observer()
+{
+	return true;
 }
 
 
-observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: false,
-    characterData: false,
-});
+urlobserver.observe(document.body, dictionnary);
