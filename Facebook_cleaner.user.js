@@ -9,64 +9,40 @@
 // @grant       none
 // ==/UserScript==
 
-/*
-** No conflict mode :
-*/
-
-//jQuery.noConflict();
-
+console.log("test1");
 
 /*
-** Variables.
+** Variables :
 */
-
-// Texts :
-var confirm_text = "Do you want to delete everything?";
-
-// Flags :
-var launched = false;
-var test = true;
-var buttons_added = false;
-var timeline = false;
 
 // Selectors :
 var button_location = 'div[class="_2o3t fixed_elem"]';
 var button_classes = '_42ft _4jy0 _11b _4jy3 _4jy1 selected _51sy';
-var activity_button = 'a[class="_42ft _42fu _4-s1 _2agf _p _42gx"]';
-//var activity_button = 'a[class="_42ft _42fu _4-s1 _2agf _p _42gx"], a[class="rfloat"]';
-var activity_selector = 'div[class="pam _5shk uiBoxWhite bottomborder"]';
-var delete_button_selector = 'a[class="_54nc"]';
-var confirm_selector = 'button[class="_42ft _4jy0 layerConfirm uiOverlayButton _4jy3 _4jy1 selected _51sy"]';
 
-// Nodes to delete :
-var month_header = '';
-var day_header = '';
+
+// Flags :
+var buttons_added = false;
+var url_observer_launched = false;
+
 
 /*
-** Basic functions.
+** Basic functions :
 */
 
-function sleep(milliseconds)
-{
-	var start = new Date().getTime();
-	for (var i = 0; i < 1e7; i++)
-	{
-		if ((new Date().getTime() - start) > milliseconds)
-		{
-			break;
-		}
-	}
-}
+console.log("test2");
 
 function check_timeline()
 {
-	// NB : It only works if the URL matches exactly "/allactivity". "/allactivity#" didn't work.
-	// NB2 : nevermind.
+	console.log("test2-1");
 	if (/(allactivity)/g.test($(location).attr('href'))){
+		console.log("test2-2");
 		return true;
 	}
+	console.log("test2-3");
 	return false;
 }
+
+console.log("test3");
 
 function add_button(text, code){	
 	// Creating the button.
@@ -94,118 +70,27 @@ function add_button(text, code){
 	location.append(button);
 }
 
-function ask_for_confirmation(){
-	return confirm(confirm_text);
-}
+console.log("test4");
 
-function get_button_with_word(word){
-	var selector = 'a:contains("' + word + '")';
-	var button =  $(document).find(selector);
-	return button;
-}
-
-function get_delete_button()
-{
-	var commands = [
-		'Delete',
-		'Hidden from Timeline'
-	];
-	for (word in commands){
-		var button = get_button_with_word(word);
-		if (button){
-			return button;
-		}
-	}
-	return null;
-}
-
-// function delete_activity(elem){
-// 	var button = $(elem).find(activity_button);
-// 	click_on_elem(button);
-// 	var delete_button = get_delete_button($(document).find(delete_button_selector));
-// 	if (delete_button){
-// 		if (test){
-// 			console.log('test : ' + elem);
-// 		}
-// 		else{
-// 			click_on_elem(delete_button);
-// 			// confirm
-// 			click_on_elem($(document).find(confirm_selector));
-// 		}
-// 	}
-// }
-
-function delete_activity(elem){
-	var button = $(elem).find(activity_button);
-	if (button && button.length > 0){
-		click_on_elem(button);
-	}
-	else{
-		return;
-	}
-	var delete_button = get_delete_button($(document).find(delete_button_selector));
-	if (test){
-		console.log('test : ');
-		console.log(elem);
-	}
-	else if (delete_button && delete_button.length > 0){
-			click_on_elem(delete_button);
-			// confirm
-			click_on_elem($(document).find(confirm_selector));
-	}
-}
-
-function click_event(){
-	return new MouseEvent('click', {
-		'view': window,
-		'bubbles': true,
-		'cancelable': false
-	});
-}
-
-function scroll(){
-	return scrollTo(0, 1000000000);
-}
-
-function get_activities(){
-	var activities = $(document).find(activity_selector);
-	scroll();
-	sleep(5000);
-	return activities;
-}
-
-function click_on_elem(elem){
-	elem[0].dispatchEvent(click_event());
-}
-
-/*
-** Evolved functions.
-*/
-
-function delete_all_activity(){
-	var activities = [];
-	var fn = function(index, value){
-		console.log("Delete no " + index + " - object : " + value);
-		delete_activity(value);
-		$(value).remove();
-	};
-	if (ask_for_confirmation()){
-		while (activities = get_activities()){
-			console.log(activities);
-			activities.each(fn);
-			activities = [];
-		}
-	}
+function reset(){
 	return true;
 }
+
+console.log("test5");
+
+/*
+** Evolved functions :
+*/
 
 function add_all_button(){
 	var text = 'Delete ALL this shit!';
 	var fn = function(){
-		delete_all_activity();
+		alert("delete all!");
 	};
 	add_button(text, fn);
 }
+
+console.log("test6");
 
 function add_one_button(){
 	var text = 'Delete ONE of this shit!';
@@ -215,102 +100,121 @@ function add_one_button(){
 	add_button(text, fn);
 }
 
-// main().
+console.log("test7");
 
-function main(){
-	if (!launched){
-		launched = true;
-		add_all_button();
-		add_one_button();
-	}
+function add_buttons(){
+	console.log("test7-1");
+	buttons_added = true;
+	console.log("test7-2");
+	add_all_button();
+	console.log("test7-3");
+	add_one_button();
+	console.log("test7-4");
 }
 
-function detect_node_for_buttons(mutations){
+/*
+** Event handling functions :
+*/
+
+console.log("test8");
+
+function handling_url_change(mutations){
+	console.log("test8-1");
 	mutations.forEach(function (mutation){
-		console.log(mutation);
-		var element = $(document).find(button_location);
-		if (launched){
-			return;
-		}
-		if (element && element.length > 0){
-			main();
-			mainobserver.disconnect();
-			return;
-		}
-		if (!mutation.addedNodes) return;
-		for (var i = 0; i < mutation.addedNodes.length; i++){
-			if (mutation.addedNodes[i].matches(button_location)){
-				main();
-				mainobserver.disconnect();
-				return;
+		console.log("test8-2");
+		if (check_timeline()){
+			console.log("test8-3");
+			console.log("buttons added : " + buttons_added);
+			if (!buttons_added){
+				console.log("test8-4");
+				var element = $(document).find(button_location);
+				console.log("test8-5");
+				if (element && element.length > 0){
+					console.log("test8-6");
+					add_buttons();
+					console.log("test8-7");
+				}
+				console.log("test8-8");
 			}
+			console.log("test8-9");
+		}else{
+			console.log("test8-10");
+			reset();
+			console.log("test8-11");
 		}
+		console.log("test8-12");
 	});
+};
+
+/*
+** Mutation observers :
+*/
+
+console.log("test9");
+
+var url_mutation_observer = new MutationObserver(handling_url_change);
+
+/*
+** Mutation observer starting functions :
+*/
+
+console.log("test10");
+
+var dictionnary = {
+	childList: true,
+	subtree: true,
+	attributes: false,
+	characterData: false
+};
+
+console.log("test11");
+
+// Must start url_mutation_observer.
+function start_url_observer(){
+	console.log("test11-1");
+	url_mutation_observer.observe(document, dictionnary);
+	console.log("test11-2");
+	url_observer_launched = true;
+	console.log("test11-3");
 }
 
 /*
-** Mutation handling functions :
+** Launching :
 */
 
-function handling_button_location(elem){
-	return true;
-}
+console.log("test12");
 
-function handling_activity(elem){
-	return true;
-}
-
-function handling_month_header(elem){
-	elem.remove();
-	return true;
-}
-
-function handling_day_header(elem){
-	elem.remove();
-	return true;
-}
-
-function handling_url_change(elem){
-	return true;
-}
-
-function handling_mutations(mutations){
-	return true;
-}
-
-/*
-** MutationObserver.
-*/
-
-var mainobserver = new MutationObserver(function (mutations){
+function launch()
+{
+	console.log("test12-1");
 	if (check_timeline()){
-		detect_node_for_buttons();
+		console.log("test12-2");
+		if (!buttons_added){
+			console.log("test12-3");
+			var element = $(document).find(button_location);
+			console.log("test12-4");
+			if (element && element.length > 0){
+				console.log("test12-5");
+				add_buttons();
+				console.log("test12-6");
+			}
+			console.log("test12-7");
+		}
+	}else{
+		console.log("test12-8");
+		reset();
+		console.log("test12-9");
 	}
-	return true;
-});
-
-var runobserver = new MutationObserver(function (mutations){
-	return true;
-});
-
-$(window).bind('hashchange', function() {
-	if (check_timeline()){
-		var observer = new MutationObserver(function (mutations){
-			detect_node_for_buttons(mutations);
-		});
+	if (!url_observer_launched){
+		console.log("test12-10");
+		start_url_observer();
+		console.log("test12-11");
 	}
-});
-
-if (check_timeline()){
-	var observer = new MutationObserver(function (mutations){
-		detect_node_for_buttons(mutations);
-	});
+	console.log("test12-12");
 }
 
+console.log("test13");
 
-observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: false,
-    characterData: false,
-});
+launch();
+
+console.log("test14");
