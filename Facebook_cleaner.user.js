@@ -298,6 +298,7 @@ console.log("test16");
 function handling_url_change(mutations){
 	console.log("test16-1");
 	mutations.forEach(function (mutation){
+		console.log(mutation.type);
 		console.log("test16-2");
 		if (check_timeline()){
 			console.log("test16-3");
@@ -344,7 +345,6 @@ function handle_deletion(mutations){
 					console.log("test17-8");
 				}
 				console.log("test17-9");
-				return true;
 			}
 			console.log("test17-10");
 		}
