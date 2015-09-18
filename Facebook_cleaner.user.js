@@ -129,8 +129,32 @@ function click_event(){
 
 console.log("test7");
 
-function click_on_elem(elem){
+function get_delete_button()
+{
 	console.log("test7-1");
+	var commands = [
+		'Delete',
+		'Hidden from Timeline'
+	];
+	console.log("test7-2");
+	for (word in commands){
+		console.log("test7-3");
+		var button = get_button_with_word(word);
+		console.log("test7-4");
+		if (button){
+			console.log("test7-5");
+			return button;
+		}
+		console.log("test7-6");
+	}
+	console.log("test7-7");
+	return null;
+}
+
+console.log("test7bis");
+
+function click_on_elem(elem){
+	console.log("test7bis-1");
 	elem[0].dispatchEvent(click_event());
 }
 
@@ -173,9 +197,62 @@ function delete_activity(elem){
 
 console.log("test9");
 
-function isheader(node){
+function get_activities(){
 	console.log("test9-1");
-	return (node.matches(month_header_selector) || node.matches(day_header_selector));
+	var activities = $(document).find(activity_selector);
+	console.log("test9-2");
+	//scroll();
+	console.log("test9-3");
+	//sleep(5000);
+	console.log("test9-4");
+	return activities;
+}
+
+console.log("test9bis");
+
+function isheader(node){
+	console.log("test9bis-1");
+	try{
+		console.log("NODE :");
+		console.log(node);
+		console.log("selectors :");
+		console.log(month_header_selector);
+		console.log(day_header_selector);
+		//console.log("Node.length : ");
+		//console.log(node.length);
+		if (node.matches)
+			var result = (node.matches(month_header_selector) || node.matches(day_header_selector));
+		console.log(result);
+		return result;
+	}
+	catch (error)
+	{
+		console.log(error);
+	}
+	return false;
+}
+
+console.log("test9ter");
+
+function isactivity(node){
+	console.log("test9ter-1");
+	try{
+		console.log("NODE :");
+		console.log(node);
+		console.log("Selector :");
+		console.log(activity_selector);
+		//console.log("Node.length : ");
+		//console.log(node.length);
+		if(node.matches)
+			var result = (node.matches(activity_selector));
+		console.log(result);
+		return result;
+	}
+	catch (error)
+	{
+		console.log(error);
+	}
+	return false;
 }
 
 console.log("test10");
@@ -243,7 +320,7 @@ function delete_current_activities(){
 		// console.log("test13-4");
 	};
 	console.log("test13-5");
-	activities = get_activities()
+	activities = get_activities();
 	console.log("test13-6");
 	activities.each(fn);
 	console.log("test13-7");
@@ -328,21 +405,30 @@ function handling_url_change(mutations){
 console.log("test17");
 
 function handle_deletion(mutations){
-	console.log("test17-1")
+	console.log("test17-1");
 	mutations.forEach(function (mutation){
 		console.log("test17-2");
 		if (mutation.addedNodes){
-			console.log("test17-3");
+			console.log("test17-3 (mutation)");
+			console.log(mutation);
+			console.log("test17-3bis (mutation.addedNodes)");
+			console.log(mutation.addedNodes);
+			console.log("test17-3ter (mutation.addedNodes.length)");
+			console.log(mutation.addedNodes.length);
+			console.log("test17-3quater");
 			for (var i = 0; i < mutation.addedNodes.length; i++){
 				console.log("test17-4");
 				if (isheader(mutation.addedNodes[i])){
 					console.log("test17-5");
 					mutation.addedNodes[i].remove()
 					console.log("test17-6");
-				}else if (isactivity(mutation.addedNodes[i])){
-					console.log("test17-7");
-					delete_activity(mutation.addedNodes[i]);
-					console.log("test17-8");
+				}else {
+					console.log("test17-6bis");
+					if (isactivity(mutation.addedNodes[i])){
+						console.log("test17-7");
+						delete_activity(mutation.addedNodes[i]);
+						console.log("test17-8");
+					}
 				}
 				console.log("test17-9");
 			}
@@ -394,7 +480,7 @@ console.log("test22");
 
 function start_delete_observer(){
 	console.log("test22-1");
-	delete_mutation_observer.observer(document, dictionnary);
+	delete_mutation_observer.observe(document, dictionnary);
 	console.log("test22-2");
 	delete_observer_launched = true;
 	console.log("test22-3");
